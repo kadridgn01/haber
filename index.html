@@ -1,1 +1,273 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kuzey Postası – Haberler, Analizler ve Yerel Gündem</title>
+  <meta name="description" content="Kuzey Postası: Güncel haberler, kültür, toplum, doğa ve altyapı üzerine derlemeler." />
+  <style>
+    :root{
+      --bg:#0b0c10;--surface:#111217;--card:#151822;--ink:#e9eef5;--muted:#9aa4b2;--brand:#00a3ff;--accent:#1f2633;--ok:#21c274;--warn:#ffb020;
+    }
+    @media (prefers-color-scheme: light){
+      :root{--bg:#f6f7fb;--surface:#ffffff;--card:#ffffff;--ink:#0b0c10;--muted:#576071;--brand:#0b84fe;--accent:#eef3ff}
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin-inline:auto;padding:16px}
+
+    /* Header */
+    .site-header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--surface),#0000);backdrop-filter:saturate(1.1) blur(6px);border-bottom:1px solid #ffffff0e}
+    .head-wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#48e);display:grid;place-items:center;color:#fff;font-weight:800;letter-spacing:.5px}
+    .brand-title{margin:0;font-size:22px;font-weight:800;letter-spacing:.2px}
+    .brand-sub{margin:0;color:var(--muted);font-size:12px}
+    .search{display:flex;align-items:center;gap:8px}
+    .search input{width:300px;max-width:42vw;padding:10px 12px;border:1px solid #ffffff18;background:var(--card);color:var(--ink);border-radius:10px}
+    .btn{appearance:none;border:1px solid #ffffff18;background:var(--card);color:var(--ink);padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.primary{background:var(--brand);border-color:transparent;color:#fff}
+
+    nav ul{display:flex;gap:12px;list-style:none;padding:0;margin:10px 0 0}
+    nav a{display:block;padding:8px 12px;border-radius:999px;background:#ffffff10}
+    nav a.active{background:var(--brand);color:#fff}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns: 1.4fr .6fr;gap:16px;margin-top:18px}
+    @media (max-width: 900px){.hero{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid #ffffff10;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px #00000022}
+    .cover{aspect-ratio:16/9;width:100%;object-fit:cover;background:linear-gradient(135deg,#223, #112)}
+    .pad{padding:16px}
+    .kicker{color:var(--brand);font-weight:700;font-size:12px;letter-spacing:.6px;text-transform:uppercase}
+    .title{margin:4px 0 8px;font-size:28px}
+    .excerpt{color:var(--muted)}
+    .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+
+    /* Grid of articles */
+    .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:16px;margin-top:18px}
+    @media (max-width: 1000px){.grid{grid-template-columns: repeat(2, 1fr)}}
+    @media (max-width: 640px){.grid{grid-template-columns: 1fr}}
+    .item .title{font-size:20px}
+
+    /* Sidebar */
+    .layout{display:grid;grid-template-columns: 1fr 320px;gap:16px;margin-top:18px}
+    @media (max-width: 1000px){.layout{grid-template-columns:1fr}}
+    .sticky{position:sticky;top:84px}
+    .list{list-style:none;padding:0;margin:0}
+    .list li{display:flex;gap:12px;padding:10px;border-bottom:1px solid #ffffff14}
+    .pill{display:inline-flex;align-items:center;gap:6px;background:#ffffff12;border:1px dashed #ffffff22;color:var(--ink);padding:4px 8px;border-radius:999px;font-size:12px}
+
+    /* Footer */
+    footer{margin:24px 0 60px;color:var(--muted);text-align:center}
+
+    /* Utility */
+    .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  </style>
+  <script>
+    // Minimal data-driven demo
+    const NEWS = [
+      {
+        id:'n1',
+        cat:'Toplum',
+        title:'Dolmuşta Başlayan Hikâye: Eski Bir Fotoğrafın İzinde',
+        img:'',
+        excerpt:'Mardin’den şehre giden köy dolmuşunda başlayan küçük bir sohbet, 20 yıl öncesinden kalan bir çerçeve fotoğrafın izini sürüyor…',
+        by:'Kadri Doğan',
+        time: Date.now() - 1000*60*90
+      },
+      {
+        id:'n2',
+        cat:'Doğa',
+        title:'Karadeniz’de Sonbahar: Çay Tarlalarında Sessiz Hasat',
+        img:'',
+        excerpt:'Sisle kaplı yamaçlarda erken saatlerde başlayan toplama, bölge insanının ritmini belirliyor.',
+        by:'Editör',
+        time: Date.now() - 1000*60*60*5
+      },
+      {
+        id:'n3',
+        cat:'Altyapı',
+        title:'Sahil Yolunda Yeni Düzenleme: Yaya Önceliği Geliyor',
+        img:'',
+        excerpt:'Şehir içi trafik akışını rahatlatacak yeni şerit ve kavşak planı, kıyı hattında yaya ve bisikletlilere alan açıyor.',
+        by:'Muhabir',
+        time: Date.now() - 1000*60*60*26
+      },
+      {
+        id:'n4',
+        cat:'Kültür',
+        title:'Atölye: Eski Taş Yapılar ve Geçici Yaşamın İzleri',
+        img:'',
+        excerpt:'Göçebe yaşamın kurduğu yarı kalıcı mekânlarda objelerin hafızasını takip eden fotoğraf-temelli bir atölye.',
+        by:'Konuk Yazar',
+        time: Date.now() - 1000*60*20
+      }
+    ];
+
+    function timeAgo(ts){
+      const diff = Math.floor((Date.now()-ts)/1000);
+      const map = [[31536000,'yıl'],[2592000,'ay'],[604800,'hafta'],[86400,'gün'],[3600,'saat'],[60,'dakika']];
+      for(const [s,label] of map){
+        const v = Math.floor(diff/s); if(v>=1) return v+" "+label+" önce";
+      }
+      return 'az önce';
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // Theme toggle
+      const themeBtn = document.querySelector('[data-theme]');
+      const setTheme = (t)=>{document.documentElement.dataset.theme=t; localStorage.setItem('theme',t)};
+      const initial = localStorage.getItem('theme'); if(initial) setTheme(initial);
+      themeBtn.addEventListener('click', ()=>{const t = document.documentElement.dataset.theme==='light'?'dark':'light'; setTheme(t)});
+
+      // Render hero + grid
+      const heroMain = document.querySelector('#hero-main');
+      const heroSide = document.querySelector('#hero-side');
+      const grid = document.querySelector('#news-grid');
+      const makeCover = ()=>`<svg class="cover" viewBox='0 0 800 450' preserveAspectRatio='xMidYMid slice'><defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='#223'/><stop offset='1' stop-color='#112'/></linearGradient></defs><rect width='100%' height='100%' fill='url(#g)'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='#fff' font-size='28' font-family='sans-serif' opacity='.6'>KAPAK GÖRSELİ</text></svg>`;
+
+      const [lead, ...rest] = NEWS.sort((a,b)=> b.time-a.time);
+
+      heroMain.innerHTML = `
+        <article class='card'>
+          ${makeCover()}
+          <div class='pad'>
+            <div class='kicker'>${lead.cat}</div>
+            <h2 class='title'>${lead.title}</h2>
+            <p class='excerpt'>${lead.excerpt}</p>
+            <div class='meta'><span>${lead.by}</span><span>•</span><span>${timeAgo(lead.time)}</span></div>
+          </div>
+        </article>`;
+
+      heroSide.innerHTML = rest.slice(0,2).map(n=>`
+        <article class='card' style='display:grid;grid-template-columns: 1fr 1.2fr'>
+          <div>${makeCover()}</div>
+          <div class='pad'>
+            <div class='kicker'>${n.cat}</div>
+            <h3 class='title' style='font-size:18px;margin:4px 0 6px'>${n.title}</h3>
+            <div class='meta'><span>${n.by}</span><span>•</span><span>${timeAgo(n.time)}</span></div>
+          </div>
+        </article>`).join('');
+
+      grid.innerHTML = NEWS.map(n=>`
+        <article class='card item'>
+          ${makeCover()}
+          <div class='pad'>
+            <div class='row'><span class='pill'>${n.cat}</span></div>
+            <h3 class='title'>${n.title}</h3>
+            <p class='excerpt'>${n.excerpt}</p>
+            <div class='meta'><span>${n.by}</span><span>•</span><span>${timeAgo(n.time)}</span></div>
+          </div>
+        </article>`).join('');
+
+      // Simple category filter
+      document.querySelectorAll('[data-cat]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const cat = btn.dataset.cat;
+          const items = Array.from(grid.children);
+          items.forEach(it=>{
+            const match = it.querySelector('.pill').textContent.trim()===cat || cat==='Hepsi';
+            it.style.display = match? 'block':'none';
+          })
+          document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+          btn.classList.add('active');
+        })
+      })
+    });
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"NewsMediaOrganization",
+    "name":"Kuzey Postası",
+    "logo":{"@type":"ImageObject","url":"/assets/logo.png"},
+    "url":"https://kuzeypostasi.example/"
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container head-wrap">
+      <div class="brand">
+        <div class="logo">LOGO</div>
+        <div>
+          <h1 class="brand-title">Kuzey Postası</h1>
+          <p class="brand-sub">Kültür • Toplum • Doğa • Altyapı</p>
+        </div>
+      </div>
+      <div class="search">
+        <input type="search" placeholder="Sitede ara…" aria-label="Ara" />
+        <button class="btn" data-theme>Temayı Değiştir</button>
+        <button class="btn primary">Abone Ol</button>
+      </div>
+    </div>
+    <div class="container">
+      <nav aria-label="Ana menü">
+        <ul>
+          <li><a href="#" class="active" data-cat="Hepsi">Hepsi</a></li>
+          <li><a href="#" data-cat="Toplum">Toplum</a></li>
+          <li><a href="#" data-cat="Doğa">Doğa</a></li>
+          <li><a href="#" data-cat="Altyapı">Altyapı</a></li>
+          <li><a href="#" data-cat="Kültür">Kültür</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero area -->
+    <section class="hero" aria-label="Manşet">
+      <div id="hero-main"></div>
+      <div id="hero-side" style="display:grid;gap:16px"></div>
+    </section>
+
+    <!-- Articles grid -->
+    <section style="margin-top:10px" aria-label="Haberler">
+      <div id="news-grid" class="grid"></div>
+    </section>
+
+    <!-- Layout with sidebar -->
+    <section class="layout">
+      <div>
+        <article class="card pad">
+          <h2>Günün Notu</h2>
+          <p class="excerpt">Yerel hikâyeler büyük haberlerin önsözüdür. Mahallenin nabzı tutulsun ki şehir nefes alsın.</p>
+          <div class="row"><span class="pill">Editörden</span><span class="pill">Bülten</span></div>
+        </article>
+      </div>
+      <aside class="sticky">
+        <div class="card pad">
+          <h3>Trend Başlıklar</h3>
+          <ul class="list">
+            <li><strong>Rize’de Balıkçı Barınağına Yeni İskele</strong></li>
+            <li><strong>Gençler İçin Film Atölyesi Duyuruldu</strong></li>
+            <li><strong>Kıyı Erozyonu Raporu Açıklandı</strong></li>
+          </ul>
+        </div>
+        <div class="card pad" style="margin-top:12px">
+          <h3>Hava Durumu</h3>
+          <p class="row"><span class="pill">Braga</span> 23° • Parçalı bulutlu</p>
+          <p class="muted">*Demo verisi – gerçek veriye bağlanabilir.</p>
+        </div>
+        <div class="card pad" style="margin-top:12px">
+          <h3>Bülten</h3>
+          <p>Haftalık özetleri e‑posta kutuna gelsin.</p>
+          <div class="row">
+            <input type="email" placeholder="e‑posta" style="flex:1;padding:10px;border:1px solid #ffffff18;background:var(--surface);color:var(--ink);border-radius:10px" />
+            <button class="btn primary">Kaydol</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="container">
+    <p>© <span id="yil"></span> Kuzey Postası • Tüm hakları saklıdır.</p>
+  </footer>
+
+  <script>document.getElementById('yil').textContent=new Date().getFullYear()</script>
+</body>
+</html>
 

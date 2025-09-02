@@ -39,6 +39,10 @@
     .hero{display:grid;grid-template-columns: 1.4fr .6fr;gap:16px;margin-top:12px}
     @media (max-width: 900px){.hero{grid-template-columns:1fr}}
     .card{background:var(--card);border:1px solid #00000010;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px #00000015}
+    /* Square media wrapper */
+    .media{position:relative;aspect-ratio:1/1;width:100%;overflow:hidden;background:#00000008}
+    .media img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+    .pad{padding:16px}
     .pad{padding:16px}
     .kicker{color:var(--brand);font-weight:700;font-size:12px;letter-spacing:.6px;text-transform:uppercase}
     .title{margin:4px 0 8px;font-size:28px}
@@ -164,7 +168,7 @@
       for(const [s,label] of map){ const v=Math.floor(diff/s); if(v>=1) return v+" "+label+" önce"; }
       return 'az önce';
     }
-    function makeImg(src, alt){ return `<img class="cover" src="${src}" alt="${alt}" onerror="this.style.opacity=.15;this.alt='görsel bulunamadı'">`; }
+    function makeImg(src, alt){ return `<figure class=\"media\"><img src=\"${src}\" alt=\"${alt}\" onerror=\"this.style.opacity=.15;this.alt='görsel bulunamadı'\"></figure>`; }" alt="${alt}" onerror="this.style.opacity=.15;this.alt='görsel bulunamadı'">`; }
 
     // Render fonksiyonu (kategoriye göre manşet/yan/grid)
     function render(cat='Hepsi'){
@@ -225,6 +229,9 @@
 
     // Kategori butonları
     document.addEventListener('DOMContentLoaded', () => {
+      // Deduplicate accidental headers/navs if any
+      document.querySelectorAll('.site-header').forEach((el,i)=>{ if(i>0) el.remove(); });
+      document.querySelectorAll('.catbar').forEach((el,i)=>{ if(i>0) el.remove(); });
       document.querySelectorAll('[data-cat]').forEach(a=>{
         a.addEventListener('click', (e)=>{
           e.preventDefault();

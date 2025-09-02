@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Anlık Manşetler – Haberler, Analizler ve Yerel Gündem</title>
-  <meta name="description" content="Anlık Manşetler: Güncel haberler, kültür, toplum ve doğa üzerine derlemeler." />
+  <title>Anlık Manşetler – Haberler, Analizler ve Gündem</title>
+  <meta name="description" content="Anlık Manşetler: Güncel haberler, ekonomi, teknoloji, kültür ve spor üzerine derlemeler." />
   <meta name="theme-color" content="#0b84fe" />
   <style>
     :root{
@@ -22,64 +22,35 @@
 
     /* Header */
     .site-header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid #ffffff10}
-    .head-wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    .brand{display:flex;align-items:center;gap:12px;min-width:200px}
-    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#48e);display:grid;place-items:center;color:#fff;font-weight:800;letter-spacing:.5px;flex:0 0 auto}
+    .head-wrap{display:flex;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px;}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#48e);display:grid;place-items:center;color:#fff;font-weight:800;letter-spacing:.5px}
     .brand-title{margin:0;font-size:22px;font-weight:800;letter-spacing:.2px}
     .brand-sub{margin:0;color:var(--muted);font-size:12px}
-
-    .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .search{display:flex;align-items:center;gap:8px;flex:1;min-width:220px}
-    .search input{width:100%;padding:10px 12px;border:1px solid #ffffff18;background:var(--card);color:var(--ink);border-radius:10px}
-    .btn{appearance:none;border:1px solid #ffffff18;background:var(--card);color:var(--ink);padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:600}
-    .btn:active{transform:translateY(1px)}
-    .btn.primary{background:var(--brand);border-color:transparent;color:#fff}
 
     nav ul{display:flex;gap:8px;list-style:none;padding:0;margin:10px 0 0;flex-wrap:wrap}
     nav a{display:block;padding:8px 12px;border-radius:999px;background:#ffffff10}
     nav a.active{background:var(--brand);color:#fff}
 
     /* Hero */
-    .hero{display:grid;grid-template-columns: 1.4fr .6fr;gap:16px;margin-top:12px}
-    @media (max-width: 900px){.hero{grid-template-columns:1fr}}
-    .card{background:var(--card);border:1px solid #ffffff10;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px #00000022}
+    .hero{margin-top:12px}
+    .card{background:var(--card);border:1px solid #ffffff10;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px #00000022;margin-bottom:16px}
     .pad{padding:16px}
     .kicker{color:var(--brand);font-weight:700;font-size:12px;letter-spacing:.6px;text-transform:uppercase}
-    .title{margin:4px 0 8px;font-size:28px}
+    .title{margin:4px 0 8px;font-size:24px}
     .excerpt{color:var(--muted)}
     .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
 
     /* Grid of articles */
-    .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:16px;margin-top:18px}
-    @media (max-width: 1000px){.grid{grid-template-columns: repeat(2, 1fr)}}
-    @media (max-width: 640px){.grid{grid-template-columns: 1fr}}
+    .grid{display:grid;grid-template-columns: repeat(2, 1fr);gap:16px;margin-top:10px}
+    @media (max-width: 800px){.grid{grid-template-columns: 1fr}}
     .item .title{font-size:20px}
-
-    /* Sidebar */
-    .layout{display:grid;grid-template-columns: 1fr 320px;gap:16px;margin-top:18px}
-    @media (max-width: 1000px){.layout{grid-template-columns:1fr}}
-    .sticky{position:sticky;top:84px}
-    .list{list-style:none;padding:0;margin:0}
-    .list li{display:flex;gap:12px;padding:10px;border-bottom:1px solid #ffffff14}
-    .pill{display:inline-flex;align-items:center;gap:6px;background:#ffffff12;border:1px dashed #ffffff22;color:var(--ink);padding:4px 8px;border-radius:999px;font-size:12px}
 
     /* Footer */
     footer{margin:24px 0 60px;color:var(--muted);text-align:center}
 
     /* Utility */
     .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-
-    /* --- Mobile tweaks --- */
-    @media (max-width:640px){
-      .brand-title{font-size:18px}
-      .title{font-size:22px}
-      .controls{width:100%;justify-content:space-between}
-      .search{order:3;width:100%}
-      .search input{padding:12px}
-      nav ul{overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
-      nav li{flex:0 0 auto}
-      .sticky{top:70px}
-    }
   </style>
 </head>
 <body>
@@ -89,74 +60,25 @@
         <div class="logo">LOGO</div>
         <div>
           <h1 class="brand-title">Anlık Manşetler</h1>
-          <p class="brand-sub">Kültür • Toplum • Doğa</p>
+          <p class="brand-sub">Ekonomi • Teknoloji • Kültür • Spor</p>
         </div>
-      </div>
-      <div class="controls" style="flex:1">
-        <div class="search" style="flex:1">
-          <input type="search" placeholder="Sitede ara…" aria-label="Ara" />
-        </div>
-        <button class="btn" data-theme>Temayı Değiştir</button>
-        <button class="btn primary">Abone Ol</button>
       </div>
     </div>
     <div class="container">
       <nav aria-label="Ana menü">
         <ul>
           <li><a href="#" class="active" data-cat="Hepsi">Hepsi</a></li>
-          <li><a href="#" data-cat="Toplum">Toplum</a></li>
-          <li><a href="#" data-cat="Doğa">Doğa</a></li>
+          <li><a href="#" data-cat="Ekonomi">Ekonomi</a></li>
+          <li><a href="#" data-cat="Teknoloji">Teknoloji</a></li>
           <li><a href="#" data-cat="Kültür">Kültür</a></li>
+          <li><a href="#" data-cat="Spor">Spor</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
   <main class="container">
-    <!-- Hero area -->
-    <section class="hero" aria-label="Manşet">
-      <div id="hero-main"></div>
-      <div id="hero-side" style="display:grid;gap:16px"></div>
-    </section>
-
-    <!-- Articles grid -->
-    <section style="margin-top:10px" aria-label="Haberler">
-      <div id="news-grid" class="grid"></div>
-    </section>
-
-    <!-- Layout with sidebar -->
-    <section class="layout">
-      <div>
-        <article class="card pad">
-          <h2>Günün Notu</h2>
-          <p class="excerpt">Yerel hikâyeler büyük haberlerin önsözüdür. Mahallenin nabzı tutulsun ki şehir nefes alsın.</p>
-          <div class="row"><span class="pill">Editörden</span><span class="pill">Bülten</span></div>
-        </article>
-      </div>
-      <aside class="sticky">
-        <div class="card pad">
-          <h3>Trend Başlıklar</h3>
-          <ul class="list">
-            <li><strong>Rize’de Balıkçı Barınağına Yeni İskele</strong></li>
-            <li><strong>Gençler İçin Film Atölyesi Duyuruldu</strong></li>
-            <li><strong>Kıyı Erozyonu Raporu Açıklandı</strong></li>
-          </ul>
-        </div>
-        <div class="card pad" style="margin-top:12px">
-          <h3>Hava Durumu</h3>
-          <p class="row"><span class="pill">Braga</span> 23° • Parçalı bulutlu</p>
-          <p class="muted">*Demo verisi – gerçek veriye bağlanabilir.</p>
-        </div>
-        <div class="card pad" style="margin-top:12px">
-          <h3>Bülten</h3>
-          <p>Haftalık özetleri e‑posta kutuna gelsin.</p>
-          <div class="row">
-            <input type="email" placeholder="e‑posta" style="flex:1;padding:10px;border:1px solid #ffffff18;background:var(--surface);color:var(--ink);border-radius:10px" />
-            <button class="btn primary">Kaydol</button>
-          </div>
-        </div>
-      </aside>
-    </section>
+    <section id="news-grid" class="grid"></section>
   </main>
 
   <footer class="container">
@@ -168,7 +90,7 @@
       { id:'e1', cat:'Ekonomi', title:'Dünya Borsaları Dalgalanıyor', img:'images/finance.jpg', excerpt:'Merkez bankalarının faiz kararları, küresel piyasalarda belirsizlik yaratıyor.', by:'Ekonomi Servisi', time: Date.now() - 1000*60*40 },
       { id:'t1', cat:'Teknoloji', title:'Yapay Zekâ Günlük Hayatta Daha Fazla Yer Buluyor', img:'images/ai.jpg', excerpt:'Yeni nesil yapay zekâ uygulamaları eğitimden sağlığa kadar geniş alanlara yayılıyor.', by:'Teknoloji', time: Date.now() - 1000*60*80 },
       { id:'k1', cat:'Kültür', title:'Venedik Film Festivali’nde Büyük Ödül Sahibini Buldu', img:'images/venice.jpg', excerpt:'Venedik’te bu yıl ödül alan film belli oldu.', by:'Kültür Sanat', time: Date.now() - 1000*60*120 },
-      { id:'s1', cat:'Spor', title:'Avrupa Futbolunun Dev Turnuvasında İlk Maçlar Tamamlandı', img:'images/images:stadium.jpg', excerpt:'Kıtalar arası heyecan yeniden başladı; ilk grup maçları nefes kesti.', by:'Spor', time: Date.now() - 1000*60*20 }
+      { id:'s1', cat:'Spor', title:'Avrupa Futbolunun Dev Turnuvasında İlk Maçlar Tamamlandı', img:'images/stadium.jpg', excerpt:'Kıtalar arası heyecan yeniden başladı; ilk grup maçları nefes kesti.', by:'Spor', time: Date.now() - 1000*60*20 }
     ];
 
     function timeAgo(ts){
@@ -178,53 +100,32 @@
       return 'az önce';
     }
 
-    function makeImg(src, alt){
-      return `<img class="cover" src="${src}" alt="${alt}">`;
-    }
-
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const themeBtn = document.querySelector('[data-theme]');
-      const setTheme = (t)=>{document.documentElement.dataset.theme=t; localStorage.setItem('theme',t)};
-      const initial = localStorage.getItem('theme'); if(initial) setTheme(initial);
-      themeBtn.addEventListener('click', ()=>{const t = document.documentElement.dataset.theme==='light'?'dark':'light'; setTheme(t)});
-
-      const heroMain = document.querySelector('#hero-main');
-      const heroSide = document.querySelector('#hero-side');
-      const grid = document.querySelector('#news-grid');
-
-      const [lead, ...rest] = NEWS.sort((a,b)=> b.time-a.time);
-
-      heroMain.innerHTML = `
-        <article class='card'>
-          ${makeImg(lead.img, lead.title)}
-          <div class='pad'>
-            <div class='kicker'>${lead.cat}</div>
-            <h2 class='title'>${lead.title}</h2>
-            <p class='excerpt'>${lead.excerpt}</p>
-            <div class='meta'><span>${lead.by}</span><span>•</span><span>${timeAgo(lead.time)}</span></div>
-          </div>
-        </article>`;
-
-      heroSide.innerHTML = rest.slice(0,2).map(n=>`
-        <article class='card' style='display:grid;grid-template-columns: 1fr 1.2fr'>
-          <div>${makeImg(n.img, n.title)}</div>
-          <div class='pad'>
-            <div class='kicker'>${n.cat}</div>
-            <h3 class='title' style='font-size:18px;margin:4px 0 6px'>${n.title}</h3>
-            <div class='meta'><span>${n.by}</span><span>•</span><span>${timeAgo(n.time)}</span></div>
-          </div>
-        </article>`).join('');
-
-      grid.innerHTML = NEWS.map(n=>`
+    function makeCard(n){
+      return `
         <article class='card item'>
-          ${makeImg(n.img, n.title)}
+          <img class="cover" src="${n.img}" alt="${n.title}">
           <div class='pad'>
             <div class='row'><span class='pill'>${n.cat}</span></div>
             <h3 class='title'>${n.title}</h3>
             <p class='excerpt'>${n.excerpt}</p>
             <div class='meta'><span>${n.by}</span><span>•</span><span>${timeAgo(n.time)}</span></div>
           </div>
-        </article>`).join('');
+        </article>`;
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const grid = document.querySelector('#news-grid');
+      grid.innerHTML = NEWS.map(makeCard).join('');
+
+      document.querySelectorAll('[data-cat]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const cat = btn.dataset.cat;
+          const html = (cat==='Hepsi'? NEWS: NEWS.filter(n=>n.cat===cat)).map(makeCard).join('');
+          grid.innerHTML = html;
+          document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
     });
 
     document.getElementById('yil').textContent=new Date().getFullYear();

@@ -9,53 +9,113 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="apple-touch-icon" href="images/logo-192.png">
-
   <style>
     :root{
-      --bg:#f6f7fb; --surface:#ffffff; --card:#ffffff; --ink:#0b0c10; --muted:#576071; --brand:#0b84fe;
+      --bg:#f6f7fb;--surface:#ffffff;--card:#ffffff;--ink:#0b0c10;--muted:#576071;--brand:#0b84fe;--accent:#eef3ff;
+      --head-h:64px;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.6}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;line-height:1.6}
+    body{overflow-x:hidden}
     a{color:inherit;text-decoration:none}
     img{max-width:100%;height:auto;display:block}
     .container{max-width:1200px;margin-inline:auto;padding:16px}
 
-    /* Header (yalnız logo + isim) */
-    .site-header{position:sticky;top:0;z-index:30;background:var(--surface);border-bottom:1px solid #00000012}
+    /* Header: brand + nav tek sticky kapsayıcı */
+    .site-header{position:sticky;top:0;z-index:30;background:var(--surface);border-bottom:1px solid #00000010}
     .head-wrap{min-height:64px;display:flex;align-items:center;gap:12px}
     .brand{display:flex;align-items:center;gap:12px}
     .logo{width:44px;height:44px;border-radius:10px;object-fit:cover;flex:0 0 auto}
     .brand-title{margin:0;font-size:22px;font-weight:800;letter-spacing:.2px}
     .brand-sub{margin:0;color:var(--muted);font-size:12px}
 
-    /* Kartlar */
-    .card{background:var(--card);border:1px solid #00000012;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px #00000015}
+    .catbar{border-top:1px solid #00000010}
+    .catbar ul{display:flex;gap:8px;list-style:none;padding:8px 16px;margin:0;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+    .catbar a{display:block;padding:8px 12px;border-radius:999px;background:#00000010}
+    .catbar a.active{background:var(--brand);color:#fff}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns: 1.4fr .6fr;gap:16px;margin-top:12px}
+    @media (max-width: 900px){.hero{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid #00000010;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px #00000015}
+    /* Square media wrapper + iOS fallback */
+    .media{position:relative;width:100%;overflow:hidden;background:#0000000a;margin:0;display:block}
+    .media::before{content:"";display:block;padding-top:100%} /* fallback: kare oran */
+    .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center}
     .pad{padding:16px}
     .kicker{color:var(--brand);font-weight:700;font-size:12px;letter-spacing:.6px;text-transform:uppercase}
-    .title{margin:6px 0 8px;font-size:26px;line-height:1.2}
+    .title{margin:4px 0 8px;font-size:28px}
     .excerpt{color:var(--muted)}
     .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
 
-    /* Medya: 4:3 oran (iOS uyumlu) */
-    .media{position:relative;width:100%;overflow:hidden;background:#0000000a}
-    .media::before{content:"";display:block;padding-top:75%} /* 4:3 */
-    .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+    /* Grid of articles */
+    .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:16px;margin-top:18px}
+    @media (max-width: 1000px){.grid{grid-template-columns: repeat(2, 1fr)}}
+    @media (max-width: 640px){.grid{grid-template-columns: 1fr}}
+    .item .title{font-size:20px}
 
-    /* Grid */
-    .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:16px}
-    @media (max-width:1000px){.grid{grid-template-columns: repeat(2, 1fr)}}
-    @media (max-width:640px){.grid{grid-template-columns:1fr}}
-
-    /* Mobil: eşit yükseklik için satır kısıtları */
-    @media (max-width:640px){
-      .brand-title{font-size:18px}
-      .title{font-size:20px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-      .excerpt{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-    }
+    /* Sidebar */
+    .layout{display:grid;grid-template-columns: 1fr 320px;gap:16px;margin-top:18px}
+    @media (max-width: 1000px){.layout{grid-template-columns:1fr}}
+    .sticky{position:sticky;top:calc(var(--head-h) + 8px)}
+    .list{list-style:none;padding:0;margin:0}
+    .list li{display:flex;gap:12px;padding:10px;border-bottom:1px solid #00000014}
+    .pill{display:inline-flex;align-items:center;gap:6px;background:#00000012;border:1px dashed #00000022;color:var(--ink);padding:4px 8px;border-radius:999px;font-size:12px}
 
     footer{margin:24px 0 60px;color:var(--muted);text-align:center}
-  </style>
 
+    @media (max-width:640px){
+      .brand-title{font-size:18px}
+      .title{font-size:22px}
+    }
+    .head-wrap{height:var(--head-h);display:flex;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:10px;object-fit:cover;flex:0 0 auto}
+    .brand-title{margin:0;font-size:22px;font-weight:800;letter-spacing:.2px}
+    .brand-sub{margin:0;color:var(--muted);font-size:12px}
+
+    /* Kategori menüsü ayrı sticky bar */
+    .catbar{position:sticky;top:var(--head-h);z-index:25;background:var(--surface);border-bottom:1px solid #00000010}
+    .catbar ul{display:flex;gap:8px;list-style:none;padding:8px 16px;margin:0;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+    .catbar a{display:block;padding:8px 12px;border-radius:999px;background:#00000010}
+    .catbar a.active{background:var(--brand);color:#fff}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns: 1.4fr .6fr;gap:16px;margin-top:12px}
+    @media (max-width: 900px){.hero{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid #00000010;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px #00000015}
+    /* Square media wrapper */
+    .media{position:relative;aspect-ratio:1/1;width:100%;overflow:hidden;background:#00000008}
+    .media img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+    .pad{padding:16px}
+    .pad{padding:16px}
+    .kicker{color:var(--brand);font-weight:700;font-size:12px;letter-spacing:.6px;text-transform:uppercase}
+    .title{margin:4px 0 8px;font-size:28px}
+    .excerpt{color:var(--muted)}
+    .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+
+    /* Grid of articles */
+    .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:16px;margin-top:18px}
+    @media (max-width: 1000px){.grid{grid-template-columns: repeat(2, 1fr)}}
+    @media (max-width: 640px){.grid{grid-template-columns: 1fr}}
+    .item .title{font-size:20px}
+
+    /* Sidebar */
+    .layout{display:grid;grid-template-columns: 1fr 320px;gap:16px;margin-top:18px}
+    @media (max-width: 1000px){.layout{grid-template-columns:1fr}}
+    .sticky{position:sticky;top:calc(var(--head-h) + 44px)}
+    .list{list-style:none;padding:0;margin:0}
+    .list li{display:flex;gap:12px;padding:10px;border-bottom:1px solid #00000014}
+    .pill{display:inline-flex;align-items:center;gap:6px;background:#00000012;border:1px dashed #00000022;color:var(--ink);padding:4px 8px;border-radius:999px;font-size:12px}
+
+    footer{margin:24px 0 60px;color:var(--muted);text-align:center}
+
+    /* --- Mobile tweaks --- */
+    @media (max-width:640px){
+      .brand-title{font-size:18px}
+      .title{font-size:22px}
+    }
+  </style>
   <!-- Manifest'ı tek dosyada üret -->
   <script>
     (function(){
@@ -72,37 +132,64 @@
           { src: "images/logo-512.png", sizes: "512x512", type: "image/png" }
         ]
       };
-      const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+      const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
       const href = URL.createObjectURL(blob);
-      const link = document.createElement('link'); link.rel='manifest'; link.href=href;
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = href;
       document.head.appendChild(link);
     })();
   </script>
 </head>
 <body>
-  <!-- HEADER -->
   <header class="site-header" aria-label="Üst bölüm">
     <div class="container head-wrap">
       <div class="brand">
-        <img class="logo" src="images/logo.jpg" alt="Anlık Manşetler Logo">
+        <img class="logo" src="images/logo.jpg" alt="Anlık Manşetler Logo" />
         <div>
           <h1 class="brand-title">Anlık Manşetler</h1>
           <p class="brand-sub">Ekonomi • Teknoloji • Kültür • Spor</p>
         </div>
       </div>
     </div>
+    <nav class="catbar" aria-label="Ana menü">
+      <ul class="container" id="catlist">
+        <li><a href="#" class="active" data-cat="Hepsi">Hepsi</a></li>
+        <li><a href="#" data-cat="Ekonomi">Ekonomi</a></li>
+        <li><a href="#" data-cat="Teknoloji">Teknoloji</a></li>
+        <li><a href="#" data-cat="Kültür">Kültür</a></li>
+        <li><a href="#" data-cat="Spor">Spor</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <!-- MAIN -->
-  <main class="container" id="app">
-    <section style="margin-top:14px" aria-label="Haberler">
+  <main class="container">
+    <!-- Hero area -->
+    <section class="hero" aria-label="Manşet">
+      <div id="hero-main"></div>
+      <div id="hero-side" style="display:grid;gap:16px"></div>
+    </section>
+
+    <!-- Articles grid -->
+    <section style="margin-top:10px" aria-label="Haberler">
       <div id="news-grid" class="grid"></div>
     </section>
 
-    <section class="card pad" style="margin-top:18px">
-      <h2>Günün Notu</h2>
-      <p class="excerpt">Gündemin hızına ayak uydurmak için ana başlıklara odaklanın; detaylar haber sayfalarında.</p>
-      <span class="kicker">Editörden</span>
+    <!-- Layout with sidebar -->
+    <section class="layout" aria-label="Ek içerikler">
+      <div>
+        <article class="card pad">
+          <h2>Günün Notu</h2>
+          <p class="excerpt">Gündemin hızına ayak uydurmak için ana başlıklara odaklanın; detaylar haber sayfalarında.</p>
+          <div class="pill">Editörden</div>
+        </article>
+      </div>
+      <aside class="sticky">
+        <div class="card pad">
+          <h3>Trend Başlıklar</h3>
+          <ul class="list" id="trends"></ul>
+        </div>
+      </aside>
     </section>
   </main>
 
@@ -111,23 +198,12 @@
   </footer>
 
   <script>
-    // ---- Haber verileri (görsel yollarını kendine göre güncelle) ----
+    // ---- Haber verileri (görselleri koddan sabitle) ----
     const NEWS = [
-      { id:'s1', cat:'Spor',     title:'Avrupa Futbolunun Dev Turnuvasında İlk Maçlar Tamamlandı', img:'images/stadium.jpg',
-        excerpt:'Kıtalar arası heyecan yeniden başladı; ilk grup maçları nefes kesti.',
-        by:'Spor', time: Date.now() - 1000*60*20 },
-
-      { id:'e1', cat:'Ekonomi',  title:'Dünya Borsaları Dalgalanıyor', img:'images/finance.jpg',
-        excerpt:'Merkez bankalarının faiz kararları, küresel piyasalarda belirsizlik yaratıyor.',
-        by:'Ekonomi Servisi', time: Date.now() - 1000*60*40 },
-
-      { id:'t1', cat:'Teknoloji', title:'Yapay Zekâ Günlük Hayatta Daha Fazla Yer Buluyor', img:'images/ai.jpg',
-        excerpt:'Yeni nesil yapay zekâ uygulamaları eğitimden sağlığa kadar yayılıyor.',
-        by:'Teknoloji', time: Date.now() - 1000*60*80 },
-
-      { id:'k1', cat:'Kültür',   title:'Venedik Film Festivali’nde Büyük Ödül Sahibini Buldu', img:'images/venice.jpg',
-        excerpt:'Venedik’te bu yıl ödül alan film belli oldu.',
-        by:'Kültür Sanat', time: Date.now() - 1000*60*120 }
+      { id:'e1', cat:'Ekonomi',  title:'Dünya Borsaları Dalgalanıyor', img:'images/finance.jpg', excerpt:'Merkez bankalarının faiz kararları, küresel piyasalarda belirsizlik yaratıyor.', by:'Ekonomi Servisi', time: Date.now() - 1000*60*40 },
+      { id:'t1', cat:'Teknoloji', title:'Yapay Zekâ Günlük Hayatta Daha Fazla Yer Buluyor', img:'images/ai.jpg', excerpt:'Yeni nesil yapay zekâ uygulamaları eğitimden sağlığa kadar geniş alanlara yayılıyor.', by:'Teknoloji', time: Date.now() - 1000*60*80 },
+      { id:'k1', cat:'Kültür',   title:'Venedik Film Festivali’nde Büyük Ödül Sahibini Buldu', img:'images/venice.jpg', excerpt:'Venedik’te bu yıl ödül alan film belli oldu.', by:'Kültür Sanat', time: Date.now() - 1000*60*120 },
+      { id:'s1', cat:'Spor',     title:'Avrupa Futbolunun Dev Turnuvasında İlk Maçlar Tamamlandı', img:'images/stadium.jpg', excerpt:'Kıtalar arası heyecan yeniden başladı; ilk grup maçları nefes kesti.', by:'Spor', time: Date.now() - 1000*60*20 }
     ];
 
     function timeAgo(ts){
@@ -136,33 +212,79 @@
       for(const [s,label] of map){ const v=Math.floor(diff/s); if(v>=1) return v+" "+label+" önce"; }
       return 'az önce';
     }
-    function media(src, alt){
-      return `<figure class="media"><img src="${src}" alt="${alt}" onerror="this.style.opacity=.15;this.alt='görsel bulunamadı'"></figure>`;
-    }
-    function card(n){
-      return `
-        <article class="card">
-          ${media(n.img, n.title)}
-          <div class="pad">
-            <div class="kicker">${n.cat}</div>
-            <h3 class="title">${n.title}</h3>
-            <p class="excerpt">${n.excerpt}</p>
-            <div class="meta"><span>${n.by}</span><span>•</span><span>${timeAgo(n.time)}</span></div>
+    function makeImg(src, alt){ return `<figure class=\"media\"><img src=\"${src}\" alt=\"${alt}\" onerror=\"this.style.opacity=.15;this.alt='görsel bulunamadı'\"></figure>`; }" alt="${alt}" onerror="this.style.opacity=.15;this.alt='görsel bulunamadı'">`; }
+
+    // Render fonksiyonu (kategoriye göre manşet/yan/grid)
+    function render(cat='Hepsi'){
+      const list = (cat && cat!=='Hepsi') ? NEWS.filter(n=>n.cat===cat) : [...NEWS];
+      const sorted = list.sort((a,b)=> b.time-a.time);
+
+      const heroMain = document.querySelector('#hero-main');
+      const heroSide = document.querySelector('#hero-side');
+      const grid = document.querySelector('#news-grid');
+
+      if(sorted.length===0){
+        heroMain.innerHTML = `<article class='card pad'><h2>Bu kategoride haber yok</h2><p class='excerpt'>Yakında güncellenecek.</p></article>`;
+        heroSide.innerHTML = '';
+        grid.innerHTML = '';
+        return;
+      }
+
+      const [lead, ...rest] = sorted;
+      const side = rest.slice(0,2);
+      const others = rest.slice(2);
+
+      heroMain.innerHTML = `
+        <article class='card'>
+          ${makeImg(lead.img, lead.title)}
+          <div class='pad'>
+            <div class='kicker'>${lead.cat}</div>
+            <h2 class='title'>${lead.title}</h2>
+            <p class='excerpt'>${lead.excerpt}</p>
+            <div class='meta'><span>${lead.by}</span><span>•</span><span>${timeAgo(lead.time)}</span></div>
           </div>
         </article>`;
+
+      heroSide.innerHTML = side.map(n=>`
+        <article class='card' style='display:grid;grid-template-columns: 1fr 1.2fr'>
+          <div>${makeImg(n.img, n.title)}</div>
+          <div class='pad'>
+            <div class='kicker'>${n.cat}</div>
+            <h3 class='title' style='font-size:18px;margin:4px 0 6px'>${n.title}</h3>
+            <div class='meta'><span>${n.by}</span><span>•</span><span>${timeAgo(n.time)}</span></div>
+          </div>
+        </article>`).join('');
+
+      grid.innerHTML = others.map(n=>`
+        <article class='card item'>
+          ${makeImg(n.img, n.title)}
+          <div class='pad'>
+            <div class='row'><span class='pill'>${n.cat}</span></div>
+            <h3 class='title'>${n.title}</h3>
+            <p class='excerpt'>${n.excerpt}</p>
+            <div class='meta'><span>${n.by}</span><span>•</span><span>${timeAgo(n.time)}</span></div>
+          </div>
+        </article>`).join('');
+
+      // Trend başlıklar (yan panel)
+      const trends = document.getElementById('trends');
+      trends.innerHTML = sorted.slice(0,5).map(n=>`<li>• ${n.title}</li>`).join('');
     }
 
-    // Tüm kartları tek tip listele (eşit görünüm)
-    function render(){
-      const grid = document.getElementById('news-grid');
-      const sorted = [...NEWS].sort((a,b)=> b.time-a.time);
-      grid.innerHTML = sorted.map(card).join('');
-    }
-
-    document.addEventListener('DOMContentLoaded', ()=>{
-      document.getElementById('yil').textContent = new Date().getFullYear();
-      render();
+    // Kategori butonları
+    document.addEventListener('DOMContentLoaded', () => {$1
+      // header yüksekliğini ölç ve CSS değişkeni olarak yaz (sticky offsetleri için)
+      const setOffsets = ()=>{
+        const h = (document.querySelector('.site-header')||{}).offsetHeight || 64;
+        document.documentElement.style.setProperty('--head-h', h + 'px');
+      };
+      setOffsets();
+      window.addEventListener('resize', setOffsets);
+      render('Hepsi');
     });
+
+    // Yıl
+    document.getElementById('yil').textContent=new Date().getFullYear();
 
     // Service Worker tek dosyada (blob)
     if ('serviceWorker' in navigator) {
@@ -171,8 +293,264 @@
         const PRECACHE=['./'];
         self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(PRECACHE)).then(()=>self.skipWaiting()))});
         self.addEventListener('activate',e=>{e.waitUntil(self.clients.claim())});
-        self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const copy=res.clone(); caches.open(CACHE).then(c=>c.put(e.request,copy)); return res;})).catch(()=>caches.match('./')))});
-      `;
+        self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const copy=res.clone(); caches.open(CACHE).then(c=>c.put(e.request,copy)); return res;})).catch(()=>caches.match('./')))})`;
+      const swBlob = new Blob([swCode], {type:'application/javascript'});
+      const swURL = URL.createObjectURL(swBlob);
+      navigator.serviceWorker.register(swURL);
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Anlık Manşetler</title>
+  <meta name="description" content="Anlık Manşetler: Güncel ekonomi, teknoloji, kültür ve spor haberleri." />
+  <meta name="theme-color" content="#0b84fe" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" href="images/logo-192.png">
+  <style>
+    :root{
+      --bg:#f6f7fb;--surface:#ffffff;--card:#ffffff;--ink:#0b0c10;--muted:#576071;--brand:#0b84fe;--accent:#eef3ff;
+      --head-h:64px; /* header yüksekliği */
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;line-height:1.6}
+    body{overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;height:auto;display:block}
+    .container{max-width:1200px;margin-inline:auto;padding:16px}
+
+    /* Header sadece logo+isim ve sticky */
+    .site-header{position:sticky;top:0;z-index:30;background:var(--surface);border-bottom:1px solid #00000010;height:var(--head-h)}
+    .head-wrap{height:var(--head-h);display:flex;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:10px;object-fit:cover;flex:0 0 auto}
+    .brand-title{margin:0;font-size:22px;font-weight:800;letter-spacing:.2px}
+    .brand-sub{margin:0;color:var(--muted);font-size:12px}
+
+    /* Kategori menüsü ayrı sticky bar */
+    .catbar{position:sticky;top:var(--head-h);z-index:25;background:var(--surface);border-bottom:1px solid #00000010}
+    .catbar ul{display:flex;gap:8px;list-style:none;padding:8px 16px;margin:0;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+    .catbar a{display:block;padding:8px 12px;border-radius:999px;background:#00000010}
+    .catbar a.active{background:var(--brand);color:#fff}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns: 1.4fr .6fr;gap:16px;margin-top:12px}
+    @media (max-width: 900px){.hero{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid #00000010;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px #00000015}
+    .pad{padding:16px}
+    .kicker{color:var(--brand);font-weight:700;font-size:12px;letter-spacing:.6px;text-transform:uppercase}
+    .title{margin:4px 0 8px;font-size:28px}
+    .excerpt{color:var(--muted)}
+    .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+
+    /* Grid of articles */
+    .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:16px;margin-top:18px}
+    @media (max-width: 1000px){.grid{grid-template-columns: repeat(2, 1fr)}}
+    @media (max-width: 640px){.grid{grid-template-columns: 1fr}}
+    .item .title{font-size:20px}
+
+    /* Sidebar */
+    .layout{display:grid;grid-template-columns: 1fr 320px;gap:16px;margin-top:18px}
+    @media (max-width: 1000px){.layout{grid-template-columns:1fr}}
+    .sticky{position:sticky;top:calc(var(--head-h) + 44px)}
+    .list{list-style:none;padding:0;margin:0}
+    .list li{display:flex;gap:12px;padding:10px;border-bottom:1px solid #00000014}
+    .pill{display:inline-flex;align-items:center;gap:6px;background:#00000012;border:1px dashed #00000022;color:var(--ink);padding:4px 8px;border-radius:999px;font-size:12px}
+
+    footer{margin:24px 0 60px;color:var(--muted);text-align:center}
+
+    /* --- Mobile tweaks --- */
+    @media (max-width:640px){
+      .brand-title{font-size:18px}
+      .title{font-size:22px}
+    }
+  </style>
+  <!-- Manifest'ı tek dosyada üret -->
+  <script>
+    (function(){
+      const manifest = {
+        name: "Anlık Manşetler",
+        short_name: "Manşetler",
+        start_url: ".",
+        scope: ".",
+        display: "standalone",
+        background_color: "#ffffff",
+        theme_color: "#0b84fe",
+        icons: [
+          { src: "images/logo-192.png", sizes: "192x192", type: "image/png" },
+          { src: "images/logo-512.png", sizes: "512x512", type: "image/png" }
+        ]
+      };
+      const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+      const href = URL.createObjectURL(blob);
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = href;
+      document.head.appendChild(link);
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container head-wrap">
+      <div class="brand">
+        <img class="logo" src="images/logo.jpg" alt="Anlık Manşetler Logo" />
+        <div>
+          <h1 class="brand-title">Anlık Manşetler</h1>
+          <p class="brand-sub">Ekonomi • Teknoloji • Kültür • Spor</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="catbar" aria-label="Ana menü">
+    <ul class="container" id="catlist">
+      <li><a href="#" class="active" data-cat="Hepsi">Hepsi</a></li>
+      <li><a href="#" data-cat="Ekonomi">Ekonomi</a></li>
+      <li><a href="#" data-cat="Teknoloji">Teknoloji</a></li>
+      <li><a href="#" data-cat="Kültür">Kültür</a></li>
+      <li><a href="#" data-cat="Spor">Spor</a></li>
+    </ul>
+  </div>
+
+  <main class="container">
+    <!-- Hero area -->
+    <section class="hero" aria-label="Manşet">
+      <div id="hero-main"></div>
+      <div id="hero-side" style="display:grid;gap:16px"></div>
+    </section>
+
+    <!-- Articles grid -->
+    <section style="margin-top:10px" aria-label="Haberler">
+      <div id="news-grid" class="grid"></div>
+    </section>
+
+    <!-- Layout with sidebar -->
+    <section class="layout" aria-label="Ek içerikler">
+      <div>
+        <article class="card pad">
+          <h2>Günün Notu</h2>
+          <p class="excerpt">Gündemin hızına ayak uydurmak için ana başlıklara odaklanın; detaylar haber sayfalarında.</p>
+          <div class="pill">Editörden</div>
+        </article>
+      </div>
+      <aside class="sticky">
+        <div class="card pad">
+          <h3>Trend Başlıklar</h3>
+          <ul class="list" id="trends"></ul>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="container">
+    <p>© <span id="yil"></span> Anlık Manşetler • Tüm hakları saklıdır.</p>
+  </footer>
+
+  <script>
+    // ---- Haber verileri (görselleri koddan sabitle) ----
+    const NEWS = [
+      { id:'e1', cat:'Ekonomi',  title:'Dünya Borsaları Dalgalanıyor', img:'images/finance.jpg', excerpt:'Merkez bankalarının faiz kararları, küresel piyasalarda belirsizlik yaratıyor.', by:'Ekonomi Servisi', time: Date.now() - 1000*60*40 },
+      { id:'t1', cat:'Teknoloji', title:'Yapay Zekâ Günlük Hayatta Daha Fazla Yer Buluyor', img:'images/ai.jpg', excerpt:'Yeni nesil yapay zekâ uygulamaları eğitimden sağlığa kadar geniş alanlara yayılıyor.', by:'Teknoloji', time: Date.now() - 1000*60*80 },
+      { id:'k1', cat:'Kültür',   title:'Venedik Film Festivali’nde Büyük Ödül Sahibini Buldu', img:'images/venice.jpg', excerpt:'Venedik’te bu yıl ödül alan film belli oldu.', by:'Kültür Sanat', time: Date.now() - 1000*60*120 },
+      { id:'s1', cat:'Spor',     title:'Avrupa Futbolunun Dev Turnuvasında İlk Maçlar Tamamlandı', img:'images/stadium.jpg', excerpt:'Kıtalar arası heyecan yeniden başladı; ilk grup maçları nefes kesti.', by:'Spor', time: Date.now() - 1000*60*20 }
+    ];
+
+    function timeAgo(ts){
+      const diff = Math.floor((Date.now()-ts)/1000);
+      const map = [[31536000,'yıl'],[2592000,'ay'],[604800,'hafta'],[86400,'gün'],[3600,'saat'],[60,'dakika']];
+      for(const [s,label] of map){ const v=Math.floor(diff/s); if(v>=1) return v+" "+label+" önce"; }
+      return 'az önce';
+    }
+    function makeImg(src, alt){ return `<img class="cover" src="${src}" alt="${alt}" onerror="this.style.opacity=.15;this.alt='görsel bulunamadı'">`; }
+
+    // Render fonksiyonu (kategoriye göre manşet/yan/grid)
+    function render(cat='Hepsi'){
+      const list = (cat && cat!=='Hepsi') ? NEWS.filter(n=>n.cat===cat) : [...NEWS];
+      const sorted = list.sort((a,b)=> b.time-a.time);
+
+      const heroMain = document.querySelector('#hero-main');
+      const heroSide = document.querySelector('#hero-side');
+      const grid = document.querySelector('#news-grid');
+
+      if(sorted.length===0){
+        heroMain.innerHTML = `<article class='card pad'><h2>Bu kategoride haber yok</h2><p class='excerpt'>Yakında güncellenecek.</p></article>`;
+        heroSide.innerHTML = '';
+        grid.innerHTML = '';
+        return;
+      }
+
+      const [lead, ...rest] = sorted;
+      const side = rest.slice(0,2);
+      const others = rest.slice(2);
+
+      heroMain.innerHTML = `
+        <article class='card'>
+          ${makeImg(lead.img, lead.title)}
+          <div class='pad'>
+            <div class='kicker'>${lead.cat}</div>
+            <h2 class='title'>${lead.title}</h2>
+            <p class='excerpt'>${lead.excerpt}</p>
+            <div class='meta'><span>${lead.by}</span><span>•</span><span>${timeAgo(lead.time)}</span></div>
+          </div>
+        </article>`;
+
+      heroSide.innerHTML = side.map(n=>`
+        <article class='card' style='display:grid;grid-template-columns: 1fr 1.2fr'>
+          <div>${makeImg(n.img, n.title)}</div>
+          <div class='pad'>
+            <div class='kicker'>${n.cat}</div>
+            <h3 class='title' style='font-size:18px;margin:4px 0 6px'>${n.title}</h3>
+            <div class='meta'><span>${n.by}</span><span>•</span><span>${timeAgo(n.time)}</span></div>
+          </div>
+        </article>`).join('');
+
+      grid.innerHTML = others.map(n=>`
+        <article class='card item'>
+          ${makeImg(n.img, n.title)}
+          <div class='pad'>
+            <div class='row'><span class='pill'>${n.cat}</span></div>
+            <h3 class='title'>${n.title}</h3>
+            <p class='excerpt'>${n.excerpt}</p>
+            <div class='meta'><span>${n.by}</span><span>•</span><span>${timeAgo(n.time)}</span></div>
+          </div>
+        </article>`).join('');
+
+      // Trend başlıklar (yan panel)
+      const trends = document.getElementById('trends');
+      trends.innerHTML = sorted.slice(0,5).map(n=>`<li>• ${n.title}</li>`).join('');
+    }
+
+    // Kategori butonları
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('[data-cat]').forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const cat = a.dataset.cat;
+          document.querySelectorAll('[data-cat]').forEach(x=>x.classList.remove('active'));
+          a.classList.add('active');
+          render(cat);
+        });
+      });
+      render('Hepsi');
+    });
+
+    // Yıl
+    document.getElementById('yil').textContent=new Date().getFullYear();
+
+    // Service Worker tek dosyada (blob)
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        const CACHE='anlik-v1';
+        const PRECACHE=['./'];
+        self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(PRECACHE)).then(()=>self.skipWaiting()))});
+        self.addEventListener('activate',e=>{e.waitUntil(self.clients.claim())});
+        self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const copy=res.clone(); caches.open(CACHE).then(c=>c.put(e.request,copy)); return res;})).catch(()=>caches.match('./')))})`;
       const swBlob = new Blob([swCode], {type:'application/javascript'});
       const swURL = URL.createObjectURL(swBlob);
       navigator.serviceWorker.register(swURL);

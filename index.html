@@ -21,10 +21,10 @@
     .container{max-width:1200px;margin-inline:auto;padding:16px}
 
     /* Header */
-    .site-header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--surface),#0000);backdrop-filter:saturate(1.1) blur(6px);border-bottom:1px solid #ffffff10}
+    .site-header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid #ffffff10}
     .head-wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
     .brand{display:flex;align-items:center;gap:12px;min-width:200px}
-    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#48e);display:grid;place-items:center;color:#fff;font-weight:800;letter-spacing:.5px}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#48e);display:grid;place-items:center;color:#fff;font-weight:800;letter-spacing:.5px;flex:0 0 auto}
     .brand-title{margin:0;font-size:22px;font-weight:800;letter-spacing:.2px}
     .brand-sub{margin:0;color:var(--muted);font-size:12px}
 
@@ -40,7 +40,7 @@
     nav a.active{background:var(--brand);color:#fff}
 
     /* Hero */
-    .hero{display:grid;grid-template-columns: 1.4fr .6fr;gap:16px;margin-top:18px}
+    .hero{display:grid;grid-template-columns: 1.4fr .6fr;gap:16px;margin-top:12px}
     @media (max-width: 900px){.hero{grid-template-columns:1fr}}
     .card{background:var(--card);border:1px solid #ffffff10;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px #00000022}
     .pad{padding:16px}
@@ -68,6 +68,18 @@
 
     /* Utility */
     .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+    /* --- Mobile tweaks --- */
+    @media (max-width:640px){
+      .brand-title{font-size:18px}
+      .title{font-size:22px}
+      .controls{width:100%;justify-content:space-between}
+      .search{order:3;width:100%}
+      .search input{padding:12px}
+      nav ul{overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+      nav li{flex:0 0 auto}
+      .sticky{top:70px}
+    }
   </style>
 </head>
 <body>
@@ -153,9 +165,10 @@
 
   <script>
     const NEWS = [
-      { id:'n1', cat:'Toplum', title:'Dolmuşta Başlayan Hikâye: Eski Bir Fotoğrafın İzinde', img:'images/dolmus.jpg', excerpt:'Mardin’den şehre giden köy dolmuşunda başlayan sohbet, 20 yıl öncesinden kalan bir çerçeve fotoğrafın izini sürüyor…', by:'Kadri Doğan', time: Date.now() - 1000*60*90 },
-      { id:'n2', cat:'Doğa',   title:'Karadeniz’de Sonbahar: Çay Tarlalarında Sessiz Hasat',    img:'images/cay.jpg', excerpt:'Sisli yamaçlarda erken saatlerde başlayan toplama, bölge insanının ritmini belirliyor.', by:'Editör', time: Date.now() - 1000*60*60*5 },
-      { id:'n3', cat:'Kültür', title:'Atölye: Eski Taş Yapılar ve Geçici Yaşamın İzleri',       img:'images/atolye.jpg', excerpt:'Göçebe yaşamın kurduğu yarı kalıcı mekânlarda objelerin hafızasını takip eden atölye.', by:'Konuk Yazar', time: Date.now() - 1000*60*20 }
+      { id:'e1', cat:'Ekonomi', title:'Dünya Borsaları Dalgalanıyor', img:'images/finance.jpg', excerpt:'Merkez bankalarının faiz kararları, küresel piyasalarda belirsizlik yaratıyor.', by:'Ekonomi Servisi', time: Date.now() - 1000*60*40 },
+      { id:'t1', cat:'Teknoloji', title:'Yapay Zekâ Günlük Hayatta Daha Fazla Yer Buluyor', img:'images/ai.jpg', excerpt:'Yeni nesil yapay zekâ uygulamaları eğitimden sağlığa kadar geniş alanlara yayılıyor.', by:'Teknoloji', time: Date.now() - 1000*60*80 },
+      { id:'k1', cat:'Kültür', title:'Venedik Film Festivali’nde Büyük Ödül Sahibini Buldu', img:'images/venice.jpg', excerpt:'Venedik’te bu yıl ödül alan film belli oldu.', by:'Kültür Sanat', time: Date.now() - 1000*60*120 },
+      { id:'s1', cat:'Spor', title:'Avrupa Futbolunun Dev Turnuvasında İlk Maçlar Tamamlandı', img:'images/stadium.jpg', excerpt:'Kıtalar arası heyecan yeniden başladı; ilk grup maçları nefes kesti.', by:'Spor', time: Date.now() - 1000*60*20 }
     ];
 
     function timeAgo(ts){

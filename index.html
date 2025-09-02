@@ -1,167 +1,82 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Anlık Manşetler – Haberler, Analizler ve Gündem</title>
-  <meta name="description" content="Anlık Manşetler: Güncel haberler, ekonomi, teknoloji, kültür ve spor üzerine derlemeler." />
-  <meta name="theme-color" content="#0b84fe" />
-  <style>
-    :root{
-      --bg:#f6f7fb;--surface:#ffffff;--card:#ffffff;--ink:#0b0c10;--muted:#576071;--brand:#0b84fe;--accent:#eef3ff;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;line-height:1.6}
-    body{overflow-x:hidden}
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;height:auto;display:block}
-    .container{max-width:1200px;margin-inline:auto;padding:16px}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anlık Manşetler</title>
 
-    /* Header */
-    .site-header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid #00000010}
-    .head-wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    .brand{display:flex;align-items:center;gap:12px;min-width:200px}
-    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#48e);display:grid;place-items:center;color:#fff;font-weight:800;letter-spacing:.5px;flex:0 0 auto}
-    .brand-title{margin:0;font-size:22px;font-weight:800;letter-spacing:.2px}
-    .brand-sub{margin:0;color:var(--muted);font-size:12px}
-
-    .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .search{display:flex;align-items:center;gap:8px;flex:1;min-width:220px}
-    .search input{width:100%;padding:10px 12px;border:1px solid #00000018;background:var(--card);color:var(--ink);border-radius:10px}
-    .btn{appearance:none;border:1px solid #00000018;background:var(--card);color:var(--ink);padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:600}
-    .btn:active{transform:translateY(1px)}
-    .btn.primary{background:var(--brand);border-color:transparent;color:#fff}
-
-    nav ul{display:flex;gap:8px;list-style:none;padding:0;margin:10px 0 0;flex-wrap:wrap}
-    nav a{display:block;padding:8px 12px;border-radius:999px;background:#00000010}
-    nav a.active{background:var(--brand);color:#fff}
-
-    /* Hero */
-    .hero{display:grid;grid-template-columns: 1.4fr .6fr;gap:16px;margin-top:12px}
-    @media (max-width: 900px){.hero{grid-template-columns:1fr}}
-    .card{background:var(--card);border:1px solid #00000010;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px #00000022}
-    .pad{padding:16px}
-    .kicker{color:var(--brand);font-weight:700;font-size:12px;letter-spacing:.6px;text-transform:uppercase}
-    .title{margin:4px 0 8px;font-size:28px}
-    .excerpt{color:var(--muted)}
-    .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
-
-    /* Grid of articles */
-    .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:16px;margin-top:18px}
-    @media (max-width: 1000px){.grid{grid-template-columns: repeat(2, 1fr)}}
-    @media (max-width: 640px){.grid{grid-template-columns: 1fr}}
-    .item .title{font-size:20px}
-
-    /* Sidebar */
-    .layout{display:grid;grid-template-columns: 1fr 320px;gap:16px;margin-top:18px}
-    @media (max-width: 1000px){.layout{grid-template-columns:1fr}}
-    .sticky{position:sticky;top:84px}
-    .list{list-style:none;padding:0;margin:0}
-    .list li{display:flex;gap:12px;padding:10px;border-bottom:1px solid #00000014}
-    .pill{display:inline-flex;align-items:center;gap:6px;background:#00000012;border:1px dashed #00000022;color:var(--ink);padding:4px 8px;border-radius:999px;font-size:12px}
-
-    /* Footer */
-    footer{margin:24px 0 60px;color:var(--muted);text-align:center}
-
-    /* Utility */
-    .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-
-    /* --- Mobile tweaks --- */
-    @media (max-width:640px){
-      .brand-title{font-size:18px}
-      .title{font-size:22px}
-      .controls{width:100%;justify-content:space-between}
-      .search{order:3;width:100%}
-      .search input{padding:12px}
-      nav ul{overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
-      nav li{flex:0 0 auto}
-      .sticky{top:70px}
-    }
-  </style>
-  <link rel="manifest" href="manifest.json">
+  <!-- PWA manifest blob olarak -->
+  <script>
+    const manifest = {
+      name: "Anlık Manşetler",
+      short_name: "Manşetler",
+      start_url: ".",
+      scope: ".",
+      display: "standalone",
+      background_color: "#ffffff",
+      theme_color: "#0b84fe",
+      icons: [
+        { src: "images/logo-192.png", sizes: "192x192", type: "image/png" },
+        { src: "images/logo-512.png", sizes: "512x512", type: "image/png" }
+      ]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+    const manifestURL = URL.createObjectURL(blob);
+    const link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = manifestURL;
+    document.head.appendChild(link);
+  </script>
   <meta name="theme-color" content="#0b84fe">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container head-wrap">
-      <div class="brand">
-        <img class="logo" src="images/logo.jpg" alt="Anlık Manşetler Logo">
-        <div>
-          <h1 class="brand-title">Anlık Manşetler</h1>
-          <p class="brand-sub">Ekonomi • Teknoloji • Kültür • Spor</p>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <nav aria-label="Ana menü" style="position:sticky;top:70px;z-index:19;background:var(--surface);padding:4px 0;border-bottom:1px solid #ffffff10">
-        <ul>
-          <li><a href="#" class="active" data-cat="Hepsi">Hepsi</a></li>
-          <li><a href="#" data-cat="Ekonomi">Ekonomi</a></li>
-          <li><a href="#" data-cat="Teknoloji">Teknoloji</a></li>
-          <li><a href="#" data-cat="Kültür">Kültür</a></li>
-          <li><a href="#" data-cat="Spor">Spor</a></li>
-        </ul>
-      </nav>
-    </div>
+  <header>
+    <img src="images/logo.jpg" alt="Anlık Manşetler Logo" style="height:50px;">
+    <h1>Anlık Manşetler</h1>
   </header>
 
-  <main class="container">
-    <section id="news-grid" class="grid"></section>
+  <main>
+    <article>
+      <h2>Dünya Borsaları Dalgalanıyor</h2>
+      <p>Merkez bankalarının faiz kararları, küresel piyasalarda belirsizlik yaratıyor.</p>
+    </article>
+    <article>
+      <h2>Yapay Zekâ Günlük Hayatta Daha Fazla Yer Buluyor</h2>
+      <p>Yeni nesil yapay zekâ uygulamaları eğitimden sağlığa kadar geniş alanlara yayılıyor.</p>
+    </article>
+    <article>
+      <h2>Venedik Film Festivali’nde Büyük Ödül Sahibini Buldu</h2>
+      <p>Venedik’te bu yıl ödül alan film belli oldu.</p>
+    </article>
+    <article>
+      <h2>Avrupa Futbolunun Dev Turnuvasında İlk Maçlar Tamamlandı</h2>
+      <p>Kıtalar arası heyecan yeniden başladı; ilk grup maçları nefes kesti.</p>
+    </article>
   </main>
 
-  <footer class="container">
-    <p>© <span id="yil"></span> Anlık Manşetler • Tüm hakları saklıdır.</p>
+  <footer>
+    © <span id="yil"></span> Anlık Manşetler
   </footer>
 
-  <script>
-    const NEWS = [
-      { id:'e1', cat:'Ekonomi', title:'Dünya Borsaları Dalgalanıyor', img:'images/finance.jpg', excerpt:'Merkez bankalarının faiz kararları, küresel piyasalarda belirsizlik yaratıyor.', by:'Ekonomi Servisi', time: Date.now() - 1000*60*40 },
-      { id:'t1', cat:'Teknoloji', title:'Yapay Zekâ Günlük Hayatta Daha Fazla Yer Buluyor', img:'images/ai.jpg', excerpt:'Yeni nesil yapay zekâ uygulamaları eğitimden sağlığa kadar geniş alanlara yayılıyor.', by:'Teknoloji', time: Date.now() - 1000*60*80 },
-      { id:'k1', cat:'Kültür', title:'Venedik Film Festivali’nde Büyük Ödül Sahibini Buldu', img:'images/venice.jpg', excerpt:'Venedik’te bu yıl ödül alan film belli oldu.', by:'Kültür Sanat', time: Date.now() - 1000*60*120 },
-      { id:'s1', cat:'Spor', title:'Avrupa Futbolunun Dev Turnuvasında İlk Maçlar Tamamlandı', img:'images/stadium.jpg', excerpt:'Kıtalar arası heyecan yeniden başladı; ilk grup maçları nefes kesti.', by:'Spor', time: Date.now() - 1000*60*20 }
-    ];
-
-    function timeAgo(ts){
-      const diff = Math.floor((Date.now()-ts)/1000);
-      const map = [[31536000,'yıl'],[2592000,'ay'],[604800,'hafta'],[86400,'gün'],[3600,'saat'],[60,'dakika']];
-      for(const [s,label] of map){ const v=Math.floor(diff/s); if(v>=1) return v+" "+label+" önce"; }
-      return 'az önce';
-    }
-
-    function makeCard(n){
-      return `
-        <article class='card item'>
-          <img class="cover" src="${n.img}" alt="${n.title}">
-          <div class='pad'>
-            <div class='row'><span class='pill'>${n.cat}</span></div>
-            <h3 class='title'>${n.title}</h3>
-            <p class='excerpt'>${n.excerpt}</p>
-            <div class='meta'><span>${n.by}</span><span>•</span><span>${timeAgo(n.time)}</span></div>
-          </div>
-        </article>`;
-    }
-
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const grid = document.querySelector('#news-grid');
-      grid.innerHTML = NEWS.map(makeCard).join('');
-
-      document.querySelectorAll('[data-cat]').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          const cat = btn.dataset.cat;
-          const html = (cat==='Hepsi'? NEWS: NEWS.filter(n=>n.cat===cat)).map(makeCard).join('');
-          grid.innerHTML = html;
-          document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
-          btn.classList.add('active');
-        });
-      });
-    });
-
-    document.getElementById('yil').textContent=new Date().getFullYear();
-  </script>
+  <!-- Service Worker gömülü -->
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js');
+      const swCode = `
+        const CACHE = 'anlik-v1';
+        self.addEventListener('install', e => {
+          e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./'])));
+        });
+        self.addEventListener('fetch', e => {
+          e.respondWith(
+            caches.match(e.request).then(r => r || fetch(e.request))
+          );
+        });
+      `;
+      const blob = new Blob([swCode], { type: 'application/javascript' });
+      const swURL = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swURL);
     }
+    document.getElementById('yil').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
